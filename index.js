@@ -1,5 +1,6 @@
 const fs = require('fs');
 const inquirer = require("inquirer");
+const MenuItems = require('./lib/menuItem');
 
 const menuItems = [
     "Add Employee",
@@ -7,7 +8,8 @@ const menuItems = [
     "View All Roles",
     "Add Role",
     "View All Departments",
-    "Add Department"
+    "Add Department",
+    "Quit"
 ];
 
 //Array of questions for user input
@@ -20,23 +22,15 @@ const questions = [
     },
 ];
 
-//function that writes to to file.
-function writeToFile(fileName, data) {
-    fs.writeFile(fileName,data,err => {if(err){console.error(err); return}})
-}
-
 //function to initialize app
 function init() {
+    console.log('Employee Manager');
+    if(data==="Quit"){return ;}; //if "Quit" selected, exit function. 
+
     inquirer.prompt(questions).then(function (data) {
-       
-        if(data===menuItems[0]){
-
-        }
-        else if (data=== menuItems[1]){
-
-        }
-
+       MenuItems(data);
     });
+
     init();
 }
 
