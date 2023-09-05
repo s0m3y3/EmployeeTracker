@@ -10,24 +10,24 @@ app.use(express.json());
 
 const db = mysql.createConnection(
   {
-    host: 'localhost',
-    user: 'root',
-    password: '',
-    database: 'employeeTracker_db'
+    host: 'localhost', 
+    user: 'root', //default is "root". Please update, to your configuration.
+    password: '', //default is "". Please update, to your configuration.
+    database: 'employeeTracker_db' //The program currently only have one database, as listed. 
   },
   console.log(`Connected to the books_db database.`)
 );
 
 
-//count the group stock
-db.query('SELECT COUNT(id) AS total_count FROM favorite_books GROUP BY in_stock', function (err, results) {
-  console.log(results);
-});
+// //count the group stock
+// db.query('SELECT COUNT(id) AS total_count FROM favorite_books GROUP BY in_stock', function (err, results) {
+//   console.log(results);
+// });
 
-//
-db.query('SELECT SUM(quantity) AS total_in_section, MAX(quantity) AS max_quantity, MIN(quantity) AS min_quantity, AVG(quantity) AS avg_quantity FROM favorite_books GROUP BY section', function (err, results) {
-  console.log(results);
-});
+// //
+// db.query('SELECT SUM(quantity) AS total_in_section, MAX(quantity) AS max_quantity, MIN(quantity) AS min_quantity, AVG(quantity) AS avg_quantity FROM favorite_books GROUP BY section', function (err, results) {
+//   console.log(results);
+// });
 
 app.use((req, res) => {
   res.status(404).end();

@@ -23,16 +23,12 @@ const questions = [
 
 //function to initialize app
 function init() {
-    console.log('Employee Manager');
-
     let quit = inquirer.prompt(questions).then(function (data) {
         menuInput(data);
         if (data==="Quit"){return 1;};
     });
 
-    if(quit==="1"){return;}; //if "Quit" selected, exit function. 
-
-    init();
+    init(); //if "Quit" is not selected, then loop this function.
 }
 
-init(); 
+init();
