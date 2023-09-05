@@ -7,21 +7,24 @@ VALUES ("Web Development"),
 INSERT INTO role (title, salary, department)
 VALUES ("Sales Lead", 75000, "Sales"),
        ("Salesperson", 50000,"Sales"),
-       ("Account Manager", 3, "Finance"),
+       ("Account Manager", 90000, "Finance"),
        ("Accountant", 100000,"Finance"),
        ("Legal Team Lead", 150000, "Legal"),
        ("Lawyer", 100000,"Legal"),
-       ("Software Engineer", 80000,"Engineer"),
        ("Lead Engineer", 125000,"Engineer"),
+       ("Software Engineer", 80000,"Engineer"),
        ("Data Scientist", 145000,"Engineer"),       
-       ("Secretary", 90000, "Office"),
+       ("Secretary", 90000, "Office");
 
 INSERT INTO employee (first_name, last_name, role_id, manager_id)
-VALUES ("John", "Smith", 1,10),
-       ("Johnson","Moore", 2),
-       ("Ashley", "Brown",3),
-       ("Mai", "Zone", 4),
-       ("Machine", 4),
-       ("Game", 1 ),
-       ("Cloud", 1);
-       
+VALUES ("John", "Smith", 1,NULL),
+       ("Johnson","Moore", 2,"John Smith"),
+       ("Ashley", "Brown",3, NULL),
+       ("Mai", "Taylor", 4, "Ashley Brown") ,
+       ("Emma", "Clark", 5, NULL),
+       ("Will", "William", 6, "Emma Clark"),
+       ("James","Jones", 7, NULL),
+       ("Ava","Jones", 8,"James Jones"),
+       ("Olivia","Williams", 9, NULL),
+       ("Ethan","Anderson", 10, NULL);
+

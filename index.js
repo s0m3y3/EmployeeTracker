@@ -1,6 +1,5 @@
-const fs = require('fs');
 const inquirer = require("inquirer");
-const MenuItems = require('./lib/menuItem');
+const menuInput = require('./lib/menuItem');
 
 const menuItems = [
     "Add Employee",
@@ -25,11 +24,13 @@ const questions = [
 //function to initialize app
 function init() {
     console.log('Employee Manager');
-    if(data==="Quit"){return ;}; //if "Quit" selected, exit function. 
 
-    inquirer.prompt(questions).then(function (data) {
-       MenuItems(data);
+    let quit = inquirer.prompt(questions).then(function (data) {
+        menuInput(data);
+        if (data==="Quit"){return 1;};
     });
+
+    if(quit==="1"){return;}; //if "Quit" selected, exit function. 
 
     init();
 }
