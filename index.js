@@ -1,6 +1,7 @@
 //this is main system of Employee Tracker. 
 const inquirer = require("inquirer");
 const {menuInput} = require('./lib/menuItem.js');
+require('dotenv').config();
 
 const menuItems = [
     "Add Employee",
@@ -24,13 +25,10 @@ const questions = [
 
 //function to initialize app
 async function init() {
-
     const data = await inquirer.prompt(questions);
-    // console.log("init is working: ", data);
     if (data.text==="Quit"){return;};  //exit function, if Quit is selected. 
-    await menuInput(data.text);  //input prompt into menuInput
+    await menuInput(data.text);  //input prompt into menuInput, which is the logic of the code. 
     setTimeout(init, 500);   
-    // await init(); 
 }
 
 init(); 
