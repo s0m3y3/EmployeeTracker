@@ -3,12 +3,12 @@ CREATE DATABASE employeeTracker_db;
 
 USE employeeTracker_db;
 
-CREATE TABLE department (
+CREATE TABLE Department (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   name VARCHAR(30) NOT NULL
 );
 
-CREATE TABLE role (
+CREATE TABLE Role (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   title VARCHAR(30) NOT NULL,
   salary DECIMAL not null,
@@ -18,14 +18,14 @@ CREATE TABLE role (
   ON DELETE SET NULL
 );
 
-CREATE TABLE employee (
+CREATE TABLE Employee (
   id INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
   first_name VARCHAR(30) NOT NULL,
   last_name VARCHAR(30) NOT NULL,
   role_id int not null,
-  manager_id INT not null,
+  manager_id INT,
   FOREIGN KEY (role_id)
   REFERENCES role(id)
-  ON DELETE SET NULL
+  ON DELETE CASCADE
 );
 

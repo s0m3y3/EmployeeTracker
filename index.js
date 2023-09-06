@@ -1,3 +1,4 @@
+//this is main system of Employee Tracker. 
 const inquirer = require("inquirer");
 const menuInput = require('./lib/menuItem');
 
@@ -23,12 +24,12 @@ const questions = [
 
 //function to initialize app
 function init() {
-    let quit = inquirer.prompt(questions).then(function (data) {
-        menuInput(data);
-        if (data==="Quit"){return 1;};
+    inquirer.prompt(questions).then(function (data) {  
+        menuInput(data);  //all user input is put into this module, function.
+        // if (data==="Quit"){return 1;};
     });
 
     init(); //if "Quit" is not selected, then loop this function.
 }
 
-init();
+init(); 
