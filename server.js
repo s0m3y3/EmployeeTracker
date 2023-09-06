@@ -18,37 +18,15 @@ const db = mysql.createConnection(
 );
 
 let sqlQuery ="";
-function performDatabaseQueries(queryType, callback) {
-  db;
+// function performDatabaseQueries(queryType, callback) {
+//   db;
 
-  // Query to select department names
-  if (queryType === 'viewAllDepartments') { sqlQuery = 'SELECT name FROM Department';} 
-  else if (queryType === 'viewAllRoles') { sqlQuery = 'SELECT title FROM Role'
-    // pending code.
-  }
-  //pending more. 
-
-
-  function performDatabaseQueries(queryType, callback) {
-    let sqlQuery = '';
-  
-    if (queryType === 'viewAllDepartments') {
-      sqlQuery = 'SELECT name FROM Department';
-    }
-    // Add other query types as needed
-  
-    if (sqlQuery) {
-      db.query(sqlQuery, (error, results) => {
-        if (error) throw error;
-  
-        // Call the callback function with the results
-        callback(results);
-      });
-    } else {
-      console.log('Invalid query type.');
-    }
-  };
-
+//   // Query to select department names
+//   if (queryType === 'viewAllDepartments') { sqlQuery = 'SELECT name FROM Department';} 
+//   else if (queryType === 'viewAllRoles') { sqlQuery = 'SELECT title FROM Role'
+//     // pending code.
+//   }
+//   //pending more. 
 
 //   if (sqlQuery) {
 //     db.query(sqlQuery, (error, results) => {
@@ -69,6 +47,26 @@ function performDatabaseQueries(queryType, callback) {
 //     connection.end();
 //   };
 // };
+
+function performDatabaseQueries(queryType, callback) {
+  let sqlQuery = '';
+
+  if (queryType === 'viewAllDepartments') {
+    sqlQuery = 'SELECT name FROM Department';
+  }
+  // Add other query types as needed
+
+  if (sqlQuery) {
+    db.query(sqlQuery, (error, results) => {
+      if (error) throw error;
+
+      // Call the callback function with the results
+      callback(results);
+    });
+  } else {
+    console.log('Invalid query type.');
+  }
+}
 
 app.use((req, res) => {
   res.status(404).end();

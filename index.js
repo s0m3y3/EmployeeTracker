@@ -24,10 +24,12 @@ const questions = [
 
 //function to initialize app
 async function init() {
-    const data = await inquirer.prompt(questions);
-    if (data.text==="Quit"){return;};  //exit function
-    menuInput(data);
 
+    const data = await inquirer.prompt(questions);
+    console.log("init is working: ", data);
+    if (data.text==="Quit"){return;};  //exit function, if Quit is selected. 
+    await menuInput(data);  //input prompt into menuInput
+    await init(); 
 }
 
 init(); 
