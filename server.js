@@ -52,16 +52,16 @@ function performDatabaseQueries(queryType, callback) {
   let sqlQuery = '';
 
   if (queryType === 'viewAllDepartments') {
-    sqlQuery = 'SELECT name FROM Department';
+    console.log('\n Department Names: \n');
+    sqlQuery = 'SELECT * FROM Department';
   }
   // Add other query types as needed
 
   if (sqlQuery) {
     db.query(sqlQuery, (error, results) => {
       if (error) throw error;
-
       // Call the callback function with the results
-      callback(results);
+      console.table(results);  //this is to remove the index
     });
   } else {
     console.log('Invalid query type.');

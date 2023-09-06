@@ -26,10 +26,11 @@ const questions = [
 async function init() {
 
     const data = await inquirer.prompt(questions);
-    console.log("init is working: ", data);
+    // console.log("init is working: ", data);
     if (data.text==="Quit"){return;};  //exit function, if Quit is selected. 
-    await menuInput(data);  //input prompt into menuInput
-    await init(); 
+    await menuInput(data.text);  //input prompt into menuInput
+    setTimeout(init, 500);   
+    // await init(); 
 }
 
 init(); 
