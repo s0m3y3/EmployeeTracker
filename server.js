@@ -18,9 +18,9 @@ const db = mysql.createConnection(
 );
 
 let sqlQuery ="";
-function performDatabaseQueries(queryType) {
+function performDatabaseQueries(queryType, callback) {
   db;
-  
+
   // Query to select department names
   if (queryType === 'viewAllDepartments') { sqlQuery = 'SELECT name FROM Department';} 
   else if (queryType === 'viewAllRoles') { sqlQuery = 'SELECT title FROM Role'
@@ -28,25 +28,47 @@ function performDatabaseQueries(queryType) {
   }
   //pending more. 
 
-  if (sqlQuery) {
-    connection.query(sqlQuery, (error, results) => {
-      if (error) throw error;
+
+  function performDatabaseQueries(queryType, callback) {
+    let sqlQuery = '';
   
-      console.log('Query result:', results);
+    if (queryType === 'viewAllDepartments') {
+      sqlQuery = 'SELECT name FROM Department';
+    }
+    // Add other query types as needed
   
-      // You can process and display the results as needed
-      // For example, results may be an array of department names
-      results.forEach(row => {
-        console.log(`Department Name: ${row.name}`);
+    if (sqlQuery) {
+      db.query(sqlQuery, (error, results) => {
+        if (error) throw error;
+  
+        // Call the callback function with the results
+        callback(results);
       });
-  
-      connection.end();
-    });
-  } else {
-    console.log('Invalid query type.');
-    connection.end();
+    } else {
+      console.log('Invalid query type.');
+    }
   };
-};
+
+
+//   if (sqlQuery) {
+//     db.query(sqlQuery, (error, results) => {
+//       if (error) throw error;
+  
+//       console.log('Query result:', results);
+  
+//       // You can process and display the results as needed
+//       // For example, results may be an array of department names
+//       results.forEach(row => {
+//         console.log(`Department Name: ${row.name}`);
+//       });
+  
+//       connection.end();
+//     });
+//   } else {
+//     console.log('Invalid query type.');
+//     connection.end();
+//   };
+// };
 
 app.use((req, res) => {
   res.status(404).end();
