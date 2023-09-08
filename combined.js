@@ -47,7 +47,7 @@ function performDatabaseQueries(queryType, callback) {
     db.query(sqlQuery, (error, results) => {
         if (error) throw error;
         console.table(results); //prints table of results. 
-        // init(); //prompt inquirer menu again.
+        init(); //prompt inquirer menu again.
     });
   } else {
     console.log('Invalid query type.');
@@ -327,7 +327,11 @@ async function init() {
 };
 
 function intro(){
-console.log("Welcome to Employee Information Database");
+console.log(" ");
+console.log("...............................................")
+console.log("-- Welcome to Employee Information Database --");
+console.log("...............................................")
+console.log(" ");
 init();
 }
 
