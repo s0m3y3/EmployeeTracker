@@ -2,15 +2,16 @@ const inquirer = require("inquirer");
 const mysql = require('mysql2');
 require('dotenv').config();
 
-const inquirerRecursive = require("inquirer-recursive");
-inquirer.registerPrompt("recursive", inquirerRecursive);
+// const inquirerRecursive = require("inquirer-recursive");
+// inquirer.registerPrompt("recursive", inquirerRecursive);
 
 const db = mysql.createConnection(
   {
     host: 'localhost', 
-    user: process.env.DB_USER, //default is "root". Please update, to your configuration.
-    password: process.env.DB_PASSWORD, //default is "". Please update, to your configuration.
-    database: process.env.DB_NAME, //The program currently only have one database, as listed. 
+    //below items are from .env files. Please update with your user, password, and database name. 
+    user: process.env.DB_USER, 
+    password: process.env.DB_PASSWORD, 
+    database: process.env.DB_NAME, 
   },
   console.log(`Connected to the employeeTracker database.`)
 );
@@ -46,18 +47,18 @@ function performDatabaseQueries(queryType, callback) {
     db.query(sqlQuery, (error, results) => {
         if (error) throw error;
         console.table(results); //prints table of results. 
-        init(); //prompt inquirer menu again.
+        // init(); //prompt inquirer menu again.
     });
   } else {
     console.log('Invalid query type.');
   }
 }
 
-function addDatabaseQueries(queryType,data){
+async function addDatabaseQueries(queryType,data){
   if(queryType === 'addRole'){
     const [role,department,salary] = data;
     sqlQuery = `INSERT INTO roles(role, department,salary) Values (${role}, ${department}, ${salary});`;
-    console.log('New role added: ', data[0]); //double-check if this is correct.
+    // console.log('New role added: ', data[0]); //double-check if this is correct.
   }
   else if (queryType==='addDepartment'){
     const [department] = data;
@@ -65,7 +66,7 @@ function addDatabaseQueries(queryType,data){
   }
   else if (queryType === 'addEmployee'){
     const {firstName, lastName, department, manager} = data;
-    console.log(manager,department,lastName,firstName);
+    // console.log(manager,department,lastName,firstName);
     sqlQuery = `INSERT INTO employee(first_name, last_name, role, manager) VALUES(${firstName}, ${lastName}, ${department},${manager});`;
   }
   else {return console.log('Invalid Query type.');};
@@ -113,7 +114,7 @@ function addEmployee(){
 
     db.query('SELECT name FROM Department;', (error, results) => {
         if (error) throw error;
-        console.log(results);
+        // console.log(results);
         departmentList = results;
         
         const question = [
@@ -144,7 +145,7 @@ function addEmployee(){
         ];
     
         inquirer.prompt(question).then(function (data) {
-            console.log(data);
+            // console.log(data);
             addDatabaseQueries('addEmployee', data);
         });
     });
@@ -157,15 +158,12 @@ function addRole(){ //name, salary, department
     //valid salary input. 
     function salaryvalid(input) {
         const decimalPattern = /^[+]?[0-9]*(?:\.[0-9]+)?$/; //regrex. Number must be positive, 0-9. Okay with decimal. 
-
-        // Test failed.
-        if (!decimalPattern.test(input)) { 
-            return console.log("This is not a decimal number.");
-        }; 
-
+        if (!decimalPattern.test(input)) {return console.log("This is not a decimal number.");};  // Test failed - NOT decimal.
         const roundedValue = parseFloat(input).toFixed(2); //Round to 2 decimal places
-        return roundedValue;
+        return roundedValue; //return value if decimal, and it is already rounded to two places. 
     };
+
+    // departmentList = await performDatabaseQueries
 
     const question = [
         {
@@ -188,9 +186,17 @@ function addRole(){ //name, salary, department
         }
     ];
 
-    // inquirer.prompt(question).then(function (data) {
-    //     //add code to add into database. 
-    // });
+    inquirer.prompt(question).then(async (data)=>{ 
+        const title = data.newRole;    
+        const salary = data.newSalary;
+        const department = data.department;
+        //title, salary, department
+        db.query(`INSERT INTO role (title,salary,department) VALUES ('${title}','${salary}','${department}');`, (error, results) => {
+            if (error) {console.error("Error adding department:", error);} 
+            else {console.log(`${newDepartment} Department added successfully!`);}
+        });
+        init();
+    });
 };
 
 async function addEmployee() {
@@ -262,7 +268,7 @@ const questions = [
             "Add Role",
             "Update Employee Role",
             "View All Departments",
-            "View All Employee",
+            // "View All Employee",
             "View All Roles",
             "Quit"
         ]
@@ -273,42 +279,51 @@ const questions = [
 async function init() {
 
     const data = await inquirer.prompt(questions)
-    .then((data)=>{
-        if (data.text==="Quit"){return console.log("Goodbye-");} //exit function, if Quit is selected. 
-        switch (data.text){
-            case 'View All Departments':
-                performDatabaseQueries('viewAllDepartments',(results)=>
-                console.table(results));
-                break;
-            case "View All Roles":
-                performDatabaseQueries('viewAllRoles',(results)=>
-                console.table(results));
-                break;
-            // case "View All Employees":
-            //     performDatabaseQueries('viewAllRoles',(results)=>
-            //     console.table(results));
-            //     break;    
-            case "Add Employee":
-                addEmployee();
-                break;
-            case "Update Employee Role":
-                console.log("Update Employee Role: ");
-                // updateEmployeeRole();
-                break;
-            case "Add Role":
-                console.log("Add Role: completed");
-                // addRole();
-                break;
-
-            case "Add Department":
+    if (data.text==="Quit"){return console.log("Goodbye-");} //exit function, if Quit is selected. 
+    switch (data.text){
+        case 'View All Departments':
+            performDatabaseQueries('viewAllDepartments',(results)=>
+            console.table(results));
+            break;
+        case "View All Roles":
+            performDatabaseQueries('viewAllRoles',(results)=>
+            console.table(results));
+            break;
+        // case "View All Employees":
+        //     performDatabaseQueries('viewAllRoles',(results)=>
+        //     console.table(results));
+        //     break;    
+        case "Add Employee":
+            addEmployee();
+            break;
+        case "Update Employee Role":
+            console.log("Update Employee Role: ");
+            // updateEmployeeRole();
+            break;
+        case "Add Role":
+            addRole();
+            break;
+        case "Add Department":
                 console.log("Add Department: ");
-                // addDepartment();
-                break;
-            default:
-                return;
-        };
-    })
-    
+                // addDepartment(); 
+                inquirer.prompt({
+                    type: "text",
+                    name: "newDepartment",
+                    message: "Please enter the name of the new department to add:",
+                    validate: validateText
+                })
+                .then(async (data) => {
+                    const newDepartment = data.newDepartment;    
+                    db.query(`INSERT INTO department (name) VALUES ('${newDepartment}');`, (error, results) => {
+                        if (error) {console.error("Error adding department:", error);} 
+                        else {console.log(`${newDepartment} Department added successfully!`);}
+                    });
+                    init();
+                })
+            break;
+        default:
+            return;
+    };
 };
 
 function intro(){

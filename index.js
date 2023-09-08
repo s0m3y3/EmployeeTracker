@@ -3,23 +3,21 @@ const {menuInput} = require('./lib/menuItem.js');
 const inquirerRecursive = require("inquirer-recursive");
 inquirer.registerPrompt("recursive", inquirerRecursive);
 
-const menu = [
-    "Add Employee",
-    "Update Employee Role",
-    "View All Roles",
-    "Add Role",
-    "View All Departments",
-    "Add Department",
-    "Quit"
-];
-
 //Array of questions for user input
 const questions = [
     {
         type:"list",
         name:"text",
         message: "What would you like to do?",
-        choices: menu
+        choices: [
+            "Add Employee",
+            "Update Employee Role",
+            "View All Roles",
+            "Add Role",
+            "View All Departments",
+            "Add Department",
+            "Quit"
+        ]
     },
 ];
 
