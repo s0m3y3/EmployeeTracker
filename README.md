@@ -1,4 +1,5 @@
 # Employee Tracker
+<!-- NOTE: Root file has combined.js (current deployment). This is a combined files of server.js, index.js and menuItem.js (future deployment, but in progress). However, coding may be slight different -->
 
 ## Table of Contents (Optional)
 
@@ -54,22 +55,10 @@ Once you initialzed the app. Here is an example of View All Department:
 
 ![](assets/viewDepartment.png) 
 
-<!-- Type node " index.js " in the command terminal. Complete the prompt four-questions, and the app will generate the logo and save it under " ./Assets/logo.svg ".  -->
-
-<!-- [SVG video sample!](https://drive.google.com/file/d/1kPlkzBHOgEAbI4Ppt5b7OONHF-VAtehq/view) -->
-
-<!-- ![](./images/SVG_sample_inquirer.png) -->
-
-
-<!-- Testing the app, using shapes.test.js: type " npm test " in command line. 
-
-[Shape tests video!](https://drive.google.com/file/d/12OQaGDR88JWe4WQZ1r-4e8qnSuFt4f1S/view) -->
-
-
 ## Credits
 Github user: s0m3y3
 
-Github Repo: [Click here](https://github.com/s0m3y3/SVG_Logo_Maker)
+Github Repo: [Click here](https://github.com/s0m3y3/EmployeeTracker)
 
 ## License
   MIT License
